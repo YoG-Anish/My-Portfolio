@@ -1,0 +1,58 @@
+/* Small, deliberate additions on top of Tailwind utility classes.
+   Anything that *can* be a Tailwind class lives in the HTML instead —
+   this file is only for things that genuinely need custom CSS. */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html { scroll-behavior: smooth; }
+
+/* terminal-style blinking cursor after the role tagline */
+.cursor-blink::after {
+  content: '_';
+  margin-left: 2px;
+  color: #d8a14c;
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* sidebar width transition for collapse/expand */
+#sidebar {
+  transition: width 0.25s cubic-bezier(.22,.61,.36,1);
+}
+#sidebar .nav-label,
+#sidebar .brand-text,
+#sidebar .quick-fact {
+  transition: opacity 0.15s ease;
+}
+#sidebar.collapsed .nav-label,
+#sidebar.collapsed .brand-text,
+#sidebar.collapsed .quick-fact {
+  display: none;
+}
+#sidebar.collapsed { width: 88px; }
+#sidebar.collapsed #collapse-icon { transform: rotate(180deg); }
+#collapse-icon { transition: transform 0.25s ease; }
+
+/* thin, theme-aware scrollbar for the sidebar nav list */
+#sidebar nav::-webkit-scrollbar { width: 6px; }
+#sidebar nav::-webkit-scrollbar-thumb {
+  background: #2b3038;
+  border-radius: 999px;
+}
+
+/* reveal-on-scroll, progressively enhanced by main.js */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* mobile drawer */
+#sidebar.mobile-open { transform: translateX(0) !important; }
+
+[data-theme='light'] body { color-scheme: light; }
